@@ -11,12 +11,21 @@
     {
       "name": "ami-ubuntu",
       "type": "amazon-ebs",
-      "instance_type": "t2.small",
+      "instance_type": "m5.large",
       "source_ami": "{{user `ubuntu_16_04_ami`}}",
       "ami_name": "ami-ubuntu-16.04-{{user `kubernetes_version`}}-{{timestamp}}",
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
       "ssh_username": "ubuntu",
+      "launch_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_size": 20,
+          "volume_type": "gp2",
+          "delete_on_termination": true
+        }
+      ],
+      "ebs_optimized": true,
       "tags": {
         "build_version": "{{user `build_version`}}",
         "source_ami": "{{user `ubuntu_16_04_ami`}}",
@@ -31,12 +40,21 @@
     {
       "name": "ami-centos",
       "type": "amazon-ebs",
-      "instance_type": "t2.small",
+      "instance_type": "m5.large",
       "source_ami": "{{user `centos_7_4_ami`}}",
       "ami_name": "ami-centos-7.4-{{user `kubernetes_version`}}-{{timestamp}}",
       "access_key": "{{user `aws_access_key`}}",
       "secret_key": "{{user `aws_secret_key`}}",
       "ssh_username": "centos",
+      "ebs_optimized": true,
+      "launch_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_size": 20,
+          "volume_type": "gp2",
+          "delete_on_termination": true
+        }
+      ],
       "tags": {
         "build_version": "{{user `build_version`}}",
         "source_ami": "{{user `centos_7_4_ami`}}",
